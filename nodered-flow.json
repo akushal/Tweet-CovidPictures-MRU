@@ -1,0 +1,173 @@
+[
+    {
+        "id": "9226281d.2e17e8",
+        "type": "tab",
+        "label": "Covid19",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "b8ebb42c.eb17d8",
+        "type": "twitter out",
+        "z": "9226281d.2e17e8",
+        "twitter": "",
+        "name": "TweeterPost",
+        "x": 1207,
+        "y": 147,
+        "wires": []
+    },
+    {
+        "id": "c3bf4452.5d4a98",
+        "type": "http request",
+        "z": "9226281d.2e17e8",
+        "name": "Get Mauritius API _ Covid from tracker API",
+        "method": "GET",
+        "ret": "txt",
+        "url": "https://coronavirus-tracker-api.herokuapp.com/v2/locations?country_code=MU",
+        "tls": "",
+        "x": 571,
+        "y": 210,
+        "wires": [
+            [
+                "28865a95.9d8546",
+                "60ce7970.a15808"
+            ]
+        ]
+    },
+    {
+        "id": "28865a95.9d8546",
+        "type": "debug",
+        "z": "9226281d.2e17e8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1179,
+        "y": 362,
+        "wires": []
+    },
+    {
+        "id": "b6c09cfb.5be12",
+        "type": "inject",
+        "z": "9226281d.2e17e8",
+        "name": "Trigger Script",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "00 08 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 110,
+        "y": 274,
+        "wires": [
+            [
+                "1f4d165.f1b93ea"
+            ]
+        ]
+    },
+    {
+        "id": "1f4d165.f1b93ea",
+        "type": "exec",
+        "z": "9226281d.2e17e8",
+        "command": "/bin/bash /home/project/tweet-covidpictures-mru/imagegen.sh",
+        "addpay": false,
+        "append": "",
+        "useSpawn": "true",
+        "timer": "120",
+        "oldrc": false,
+        "name": "Generate A picture about Covid",
+        "x": 317,
+        "y": 540.5,
+        "wires": [
+            [
+                "a3705918.c8f118",
+                "28865a95.9d8546"
+            ],
+            [
+                "28865a95.9d8546"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "a3705918.c8f118",
+        "type": "file in",
+        "z": "9226281d.2e17e8",
+        "name": "PictureOfCovid_MRU",
+        "filename": "/var/www/html/flight/covid.png",
+        "format": "",
+        "chunk": false,
+        "sendError": true,
+        "x": 567,
+        "y": 386,
+        "wires": [
+            [
+                "d324f3cb.a8579"
+            ]
+        ]
+    },
+    {
+        "id": "dcf8d67c.cca1f8",
+        "type": "function",
+        "z": "9226281d.2e17e8",
+        "name": "Appending Any Text",
+        "func": "\nmsg.payload = \"#Mauritius\\n#COVID19\\nConfirmed Cases:\" + msg.payload.latest.confirmed + \"\\nDeaths: \" + msg.payload.latest.deaths  + \"\\nRecovered: \" + msg.payload.latest.recovered; \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 972,
+        "y": 227,
+        "wires": [
+            [
+                "28865a95.9d8546",
+                "b8ebb42c.eb17d8"
+            ]
+        ]
+    },
+    {
+        "id": "d324f3cb.a8579",
+        "type": "change",
+        "z": "9226281d.2e17e8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "media",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 684,
+        "y": 301,
+        "wires": [
+            [
+                "28865a95.9d8546",
+                "c3bf4452.5d4a98"
+            ]
+        ]
+    },
+    {
+        "id": "60ce7970.a15808",
+        "type": "json",
+        "z": "9226281d.2e17e8",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": true,
+        "x": 816,
+        "y": 165,
+        "wires": [
+            [
+                "dcf8d67c.cca1f8"
+            ]
+        ]
+    }
+]

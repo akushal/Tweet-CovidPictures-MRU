@@ -8,12 +8,6 @@ Post picture to Tweeter
 ![](images/nodered.png)
 ![](images/twitterscreenshot.png)
 
-<img src="https://gitlab.com/appadudevraj7/tweet-covidpictures-mru/-/blob/43e61bd00ca386112941c000d299ab3c5c7f6080/images/covid.png" width="240" height="320">
-
-<img src="https://gitlab.com/appadudevraj7/tweet-covidpictures-mru/-/blob/43e61bd00ca386112941c000d299ab3c5c7f6080/images/nodered.png" width="520" height="320">
-
-<img src="https://gitlab.com/appadudevraj7/tweet-covidpictures-mru/-/blob/43e61bd00ca386112941c000d299ab3c5c7f6080/images/twitterscreenshot.png" width="240" height="320">
-
 # Requirements
 - Imagemagick
 - Bash

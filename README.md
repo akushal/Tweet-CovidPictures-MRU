@@ -9,8 +9,8 @@ Post picture to Tweeter
 ![](images/twitterscreenshot.png)
 
 # Requirements
-- Imagemagick
-- Bash
+- Imagemagick (installed via apt or yum to get convert command)
+- Bash (wget, curl, python2, jq)
 - Nodered Installed
 - Twitter Node for Nodered
 - Twitter Access Tokens from Twitter

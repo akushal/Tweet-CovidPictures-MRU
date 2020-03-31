@@ -1,12 +1,13 @@
 #!/bin/bash
 ##################################
- Script to Download a picture 
- get stats about covid 
- write it on the image
-#################################
+# Script to Download a picture   #
+# get stats about covid          #
+# write it on the image          #
+##################################
 
 
 temppath=/var/www/html/flight/temp.png
+temppath_convert=/var/www/html/flight/tempconvert.png
 confinementstartdate='200320' #Mauritius
 finalimagepath=/var/www/html/flight/covid.png
 backup=/var/www/html/flight/backup.png
@@ -20,7 +21,13 @@ fi
 
 imageURL=$(curl -s 'https://apiimages.kushal.net/api/v1.0/r/naturepics/random' | \
 	python2 -c "import sys, json; print json.load(sys.stdin)['url']")
-wget --quiet $imageURL -O $temppath >/dev/null
+wget --quiet $imageURL -O $temppath_convert >/dev/null
+
+if [ ! $? -eq 0 ]; then
+	echo "[KO] WGET"
+      	exit 1
+fi	
+convert  $temppath_convert -resize 1024x768 $temppath
 
 COVIDDS=$(curl -s 'https://coronavirus-tracker-api.herokuapp.com/v2/locations?country_code=MU')
 
@@ -39,7 +46,9 @@ confirmedmsg='"Confirmed:'"$confirmed"'"'
 recoveredmsg='"Recovered:'"$recovered"'"'
 deathmsg='"Deaths:'"$deaths"'"'
 
-convert -font helvetica -fill white -pointsize 50 -gravity north \
+
+
+convert  -font helvetica -fill "#189CCA" -pointsize 40 -gravity north \
 	-draw "text 0,200 $confinementmsg" \
 	-gravity center -draw "text 0,0 $confirmedmsg" \
 	-draw "text 0,50 $recoveredmsg" \

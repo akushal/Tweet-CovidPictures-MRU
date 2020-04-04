@@ -19,8 +19,9 @@ if [ -f $finalimagepath ]; then
 fi
 
 
-imageURL=$(curl -s 'https://apiimages.kushal.net/api/v1.0/r/naturepics/random' | \
+imageURL=$(curl -s 'https://apiimages.kushal.net/api/v1.0/gp/public/random' | \
 	python2 -c "import sys, json; print json.load(sys.stdin)['url']")
+
 wget --quiet $imageURL -O $temppath_convert >/dev/null
 
 if [ ! $? -eq 0 ]; then
@@ -48,7 +49,7 @@ deathmsg='"Deaths:'"$deaths"'"'
 
 
 
-convert  -font helvetica -fill "#189CCA" -pointsize 40 -gravity north \
+convert  -font helvetica -fill "#fc4103" -pointsize 40 -gravity north \
 	-draw "text 0,200 $confinementmsg" \
 	-gravity center -draw "text 0,0 $confirmedmsg" \
 	-draw "text 0,50 $recoveredmsg" \

@@ -30,7 +30,7 @@ if [ ! $? -eq 0 ]; then
 fi	
 convert  $temppath_convert -resize 1024x768 $temppath
 
-COVIDDS=$(curl -s 'https://coronavirus-tracker-api.herokuapp.com/v2/locations?country_code=MU')
+COVIDDS=$(curl -s 'http://11.0.0.3:1880/getcovid')
 
 confirmed=`echo $COVIDDS |jq .latest.confirmed`
 recovered=`echo $COVIDDS | jq .latest.recovered`
